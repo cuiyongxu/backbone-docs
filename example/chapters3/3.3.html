@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> reset方法</title>
+</head>
+<body>
+</body>
+<script src="../lib/jquery.js"></script>
+<script src="../lib/underscore.js"></script>
+<script src="../lib/backbone.js"></script>
+<script>
+    (function ($) {
+        var Book = Backbone.Model.extend({
+            initialize:function () {
+                console.log("init")
+            },
+            defaults:{
+              "title":"default"
+            }
+        })
+
+
+        var BookColl = Backbone.Collection.extend({
+            model:Book
+        })
+
+        var bookColl = new BookColl();
+        /*//collection中并没有urlRoot这个属性
+        bookColl.url = "http://localhost:63342/backbone-docs/example/server/json/title.json";
+        bookColl.fetch({
+            success:function(collection, response, options){
+                collection.each(function(book){
+                    alert(book.get('title'));
+                });
+            },error:function(collection, response, options){
+                alert('error');
+            }
+        })*/
+
+
+
+
+        var showAllBooks = function(){
+            bookColl.each(function(book){
+                //将book数据渲染到页面的操作。
+                document.writeln(book.get('title'));
+            });
+        }
+
+        bookColl.bind('reset',showAllBooks);
+        bookColl.url = 'http://localhost:63342/backbone-docs/example/server/json/title.json'; //注意这里
+        bookColl.fetch({
+            // 需要主动传递reset，才会触发reset
+            reset: true,
+            success:function(collection, response, options){
+                collection.each(function(book){
+                    alert(book.get('title'));
+                });
+            },error:function(collection, response, options){
+                alert('error');
+            }
+        });
+
+
+
+    })(jQuery);
+</script>
+</html>

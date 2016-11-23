@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>为对象添加验证规则，以及错误提示</title>
+</head>
+<body>
+</body>
+<script src="../lib/jquery.js"></script>
+<script src="../lib/underscore.js"></script>
+<script src="../lib/backbone.js"></script>
+<script>
+    (function ($) {
+
+        var Main = Backbone.Model.extend({
+            initialize: function () {
+                alert("hi");
+                this.bind("change:name", function () {
+                    var name = this.get("name");
+                    alert("你改变了name属性为：" + name);//此处为更新后的值
+                });
+                this.bind("invalid", function (model, error) {
+                    alert(error)
+                });
+            },
+            validate: function (attrs) {
+                if (attrs.name == '') {
+                    return "name 不能为空";
+                }
+
+            },
+            defaults: {
+                "name": "张三",
+                "age": 24
+            },
+            aboutMe: function () {
+                alert("我叫" + this.get("name") + ",今年" + this.get("age"));
+            }
+        })
+
+        var main = new Main();
+        // 1 请查看save方法  save方法中 同样执行 {validate:"true"}
+        //main.set({name: "李四"});
+        //main.save();//此处直接main.save()会出现问题,原因是 options = _.extend({validate: true}, options);
+        // Uncaught Error: A "url" property or function must be specified(…)
+        // 此方式会获取url属性用来发送请求,请求后会返回success和error,由于缺少url参数,故返回值缺少succes属性
+        // 故会报错,可查看2.6.html
+        //main.save();
+        //2 推荐此种方式
+        main.set({name:''},{validate:"true"});
+
+
+    })(jQuery);
+</script>
+</html>

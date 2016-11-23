@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>routes映射传参数</title>
+</head>
+<body>
+
+<a href="#actions">testActions</a>
+<a href="#/posts/111">posts 111</a>
+</body>
+<script src="../lib/jquery.js"></script>
+<script src="../lib/underscore.js"></script>
+<script src="../lib/backbone.js"></script>
+<script>
+    (function ($) {
+
+        var appRouter = Backbone.Router.extend({
+            routes:{
+                "posts/:id":"getPost",
+                "*actions":"demoRourte"
+            },
+            getPost:function (id) {
+                alert(id)
+            },
+            demoRourte :function(actions){
+                alert(actions)
+            }
+        })
+
+        var app_router = new appRouter();
+
+        Backbone.history.start();
+
+    })(jQuery);
+</script>
+
+</html>

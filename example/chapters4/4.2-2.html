@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>routes映射传参数</title>
+</head>
+<body>
+
+<a href="#actions">testActions</a>
+<a href="#/posts/111">posts 111</a>
+<a href="#/download/user/images/hey.gif">download gif</a>
+<a href="#/dashboard/graph">Load Route/Action View</a>
+</body>
+<script src="../lib/jquery.js"></script>
+<script src="../lib/underscore.js"></script>
+<script src="../lib/backbone.js"></script>
+<script>
+    (function ($) {
+
+        var appRouter = Backbone.Router.extend({
+            routes:{
+                //"posts/:id":"getPost",
+                //"download/*path": "downloadFile",
+                ":route/:action": "loadView"
+                //"*actions":"demoRourte"
+            },
+            getPost:function (id) {
+                alert(id)
+            },
+            demoRourte :function(actions){
+                alert(actions)
+            },
+            downloadFile: function( path ){
+                alert(path); // user/images/hey.gif
+            },
+            loadView: function( route, action ){
+                //TODO 为什么返回dashboard_graph 而不是 :route_:action
+                alert(route + "_" + action); // dashboard_graph
+            }
+        })
+
+        var app_router = new appRouter();
+
+        Backbone.history.start();
+
+    })(jQuery);
+</script>
+
+</html>

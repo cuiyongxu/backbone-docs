@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>监听对象中属性的变化</title>
+</head>
+<body>
+</body>
+<script src="../lib/jquery.js"></script>
+<script src="../lib/underscore.js"></script>
+<script src="../lib/backbone.js"></script>
+<script>
+    (function ($) {
+
+        var Main = Backbone.Model.extend({
+            initialize: function () {
+                alert("hi");
+
+                //change 是事件触发,可以单一事件绑定
+                //this.bind("change:name]", function () {
+
+                //可以多事件绑定,不过也会触发多次,不推荐这么干
+                this.bind("change:name change:age", function () {
+                    var name = this.get("name");
+                    var age = this.get("age");
+                    alert("你改变了name属性为：" + name);//此处为更新后的值
+                    alert("你改变了age属性为：" + age);//此处为更新后的值
+                });
+            },
+            defaults: {
+                "name": "张三",
+                "age": 24
+            },
+            aboutMe: function () {
+                alert("我叫" + this.get("name") + ",今年" + this.get("age"));
+            }
+        })
+
+        var main = new Main();
+        main.set({name: "崔永旭", age: 12});
+        main.set({"name": "王五", age: 44});
+
+
+        //猜猜输出结果是什么
+        //hi
+        //你改变了name属性为崔永旭
+        //你改变了age属性为12
+        //你改变了name属性为崔永旭
+        //你改变了age属性为12
+
+        //你改变了name属性为王五
+        //你改变了age属性为44
+        //你改变了name属性为王五
+        //你改变了age属性为44
+
+
+    })(jQuery);
+</script>
+</html>

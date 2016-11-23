@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>关于book和bookshelf的例子</title>
+</head>
+<body>
+</body>
+<script src="../lib/jquery.js"></script>
+<script src="../lib/underscore.js"></script>
+<script src="../lib/backbone.js"></script>
+<script>
+    (function ($) {
+
+        //定义book Model
+        var Book = Backbone.Model.extend({
+            initialize: function () {
+                console.log("init 触发")
+                /*this.bind("change:title",function () {
+                    console.log("你修改title为:"+this.get("title"))
+                    alert("你修改title为:"+this.get("title"))
+                })*/
+            }
+            //bind放到initialize外面,主要初始化
+            ,
+            bind:function () {
+                this.bind("change:title",function () {
+                    console.log("你修改title为:"+this.get("title"))
+                    alert("你修改title为:"+this.get("title"))
+                })
+            }
+            ,
+            defaults: {
+                title: "default"
+            }
+        })
+        //通过扩展 Backbone.Collection 创建一个 Collection 类。
+        // 实例属性参数 properties 以及 类属性参数 classProperties
+        // 会被直接注册到集合的构造函数。
+        // 自行看源码
+        var BookColl = Backbone.Collection.extend({
+            //model 默认属性
+            model: Book
+        })
+        //----------至此 未触发Backbone.Collection
+
+        //TODO new Book({te itle: 'book1'}); 和book4.set({"title":"book4"}) 的区别在哪里
+
+        //TODO 答:  set早于initialize调用
+        var book1 = new Book({title: 'book1'});//此种方式不会触发bind事件
+        var book2 = new Book({title: 'book2'});//此种方式不会触发bind事件
+        var book3 = new Book({title: 'book3'});//此种方式不会触发bind事件
+        //---未触发set
+
+
+        //此处new的时候不会触发set,但是会初始化initialize方法
+        var book4 = new Book();
+        //此处会触发set
+        book4.set({"title":"book4"})//此种方式会触发bind事件
+
+
+        //注意这里面是数组,或者使用add
+        var bookColl = new BookColl([book1, book2, book3,book4]);// 触发Backbone.Collection
+
+        bookColl.remove(book3);
+        bookColl.add(book4);//如果存在重复,则不会添加
+
+
+        bookColl.each(function(book){
+            alert(book.get('title'));
+        });
+
+
+
+
+    })(jQuery);
+</script>
+</html>

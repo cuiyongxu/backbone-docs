@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>路由简单的例子</title>
+</head>
+<body>
+
+<a href="#actions">testActions</a>
+</body>
+<script src="../lib/jquery.js"></script>
+<script src="../lib/underscore.js"></script>
+<script src="../lib/backbone.js"></script>
+<script>
+    (function ($) {
+
+        var appRouter = Backbone.Router.extend({
+            routes:{
+                "*actions":"demoRourte"
+            },
+            demoRourte :function(actions){
+                alert(actions)
+            }
+        })
+
+        var app_router = new appRouter();
+
+        Backbone.history.start();
+
+    })(jQuery);
+</script>
+
+</html>

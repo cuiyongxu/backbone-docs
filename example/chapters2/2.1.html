@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>最简单的对象</title>
+</head>
+<body>
+</body>
+<script src="../lib/jquery.js"></script>
+<script src="../lib/underscore.js"></script>
+<script src="../lib/backbone.js"></script>
+<script>
+    (function ($) {
+        //Models（模型）是任何Javascript应用的核心，包括数据交互及与其相
+        // 关的大量逻辑： 转换、验证、计算属性和访问控制。你可以用特定的方法
+        // 扩展 Backbone.Model，Model 也提供了一组基本的管理变化的功能。
+        var main = Backbone.Model.extend({
+            //用于初始化model对象
+            initialize: function () {
+                alert("123")
+            }
+        });
+        new main();
+    })(jQuery);
+</script>
+</html>

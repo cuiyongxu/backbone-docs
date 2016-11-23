@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>the5fire.com-backbone.js-Hello World</title>
+</head>
+
+<body>
+
+<script type="text/template" id="topic-template">
+    <a href="#topic/<%= id %>">
+        <div class="column">
+            <div class="ui segment">
+                <h3><%= title %></h3>
+                <p>
+                    创建者：<%= owner_name %>
+                </p>
+                <p>
+                    创建时间：<%= created_time %>
+                </p>
+            </div>
+        </div>
+    </a>
+</script>
+
+<script type="text/template" id="message-template">
+    <div class="content <% if(is_mine) { %> right <% } %>" data="<%= id %>">
+        <a class="author"><%= user_name %></a>
+        <br/>
+        <div class="metadata">
+            <span class="date"><%= created_time %></span>
+        </div>
+        <div class="text" style="min-width:55px">
+            <div class="ui pointing label large <% if(is_mine) { %> right <% } %>">
+                <p><%= content %></p>
+            </div>
+        </div>
+    </div>
+</script>
+
+
+<!-- Top Bar  -->
+<div class="ui fixed transparent inverted main menu">
+    <div class="container">
+        <div class="title item">
+            <b>We Chat</b> 在线聊天系统
+        </div>
+
+        <div class="right menu">
+            <div class="title item">
+                Backbonejs交流群：308466740
+            </div>
+        </div>
+        <div id="user_info" class="right menu hide">
+            <div class="title item">
+                <i class="icon user"></i>
+                <label id="username">the5fire</lable>
+            </div>
+            <a class="popup icon github item" href="/logout" title="退出登录">
+                退出登录
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<div id="wrapper" style="display: block; z-index: 998;">
+    <div class="container">
+        <div id="login" class="ui two column relaxed grid">
+            <div class="column">
+                <div class="ui fluid form segment">
+                    <h3 class="ui header">登录</h3>
+                    <div class="field">
+                        <label>用户名</label>
+                        <input id="login_username" placeholder="用户名" type="text">
+                    </div>
+                    <div class="field">
+                        <label>密码</label>
+                        <input id="login_pwd" type="password">
+                    </div>
+                    <div class="ui blue login_submit button">登录</div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="ui fluid form segment">
+                    <h3 class="ui header">注册</h3>
+                    <div class="field">
+                        <label>用户名</label>
+                        <input id="reg_username" placeholder="用户名" type="text">
+                    </div>
+                    <div class="field">
+                        <label>密码</label>
+                        <input id="reg_pwd" type="password">
+                    </div>
+                    <div class="field">
+                        <label>重复密码</label>
+                        <input id="reg_pwd_repeat" type="password">
+                    </div>
+                    <div class="inline field">
+                        <div class="ui checkbox">
+                            <input type="checkbox" id="terms">
+                            <label for="terms">我同意the5fire's WeChat网的服务条款。</label>
+                        </div>
+                    </div>
+                    <div class="ui blue registe_submit button">注册</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Content -->
+<div id="main" class="main container">
+
+    <!-- Topic List -->
+    <div id="topic_section">
+        <div id="topic_list" class="ui three column grid">
+            <!-- 这里放topic列表 -->
+        </div>
+        <div id="topic_form" class="ui error form segment">
+            <div class="two fields">
+                <div class="field">
+                    <label>新建Topic</label>
+                    <input id="topic_title" placeholder="topic" type="text">
+                </div>
+            </div>
+            <div class="ui blue submit_topic button">Add</div>
+        </div>
+    </div>
+
+    <!-- Message -->
+    <div  id="message_section" class="ui column grid hide" style="display:none">
+        <div class="column">
+            <div class="circular ui button"><a href="#index">返回列表</a></div>
+            <div class="ui piled blue segment">
+                <h2 class="ui header">
+                    #<i id="message_head"></i># <!-- 用来放topic name -->
+                </h2>
+                <div id="message_list" class="ui comments">
+                    <!-- comments 列表 -->
+                </div>
+                <div class="ui reply form">
+                    <div class="field">
+                        <input type="text" id="comment"/>
+                    </div>
+                    <div id="submit" data="" class="ui fluid blue labeled submit icon button">
+                        <i class="icon edit"></i> 我也来说一句！
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<script data-main="app.js" src="../../lib/require.js"></script>
+<script>
+    require.config({
+        baseUrl: "",
+        shim: {
+            jquery: {
+                exports: '$'
+            },
+            underscore: {
+                exports: '_'
+            },
+            backbone: {
+                exports: 'Backbone'
+            }
+        },
+        paths: {
+            "jquery": "../../lib/jquery",
+            "underscore": "../../lib/underscore",
+            "backbone": "../../lib/backbone",
+
+            "user": "user",
+            "approuter": "approuter",
+            "appview": "appview",
+            "message": "message",
+            "topic": "topic",
+            "app": "app"
+        }
+    });
+</script>
+</body>
+</html>

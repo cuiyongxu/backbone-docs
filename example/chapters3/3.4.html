@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> 发送数据到Server端</title>
+    <meta charset="utf-8">
+</head>
+<body>
+</body>
+<script src="../lib/jquery.js"></script>
+<script src="../lib/underscore.js"></script>
+<script src="../lib/backbone.js"></script>
+<script>
+    (function ($) {
+        var Book = Backbone.Model.extend({
+            initialize:function () {
+                console.log("init")
+
+            },
+            defaults:{
+              "title":"default"
+            }
+        })
+
+        var NewBooks = Backbone.Collection.extend({
+            model: Book,
+            url: 'http://localhost:63342/backbone-docs/example/server/json/title.json'
+        });
+
+        var books = new NewBooks();
+
+        var onebook = books.create({
+            title: "I'm coming",
+        });
+
+
+    })(jQuery);
+</script>
+</html>

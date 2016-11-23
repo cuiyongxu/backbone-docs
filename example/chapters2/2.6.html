@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>和服务器进行交互，对象的保存和获取</title>
+</head>
+<body>
+</body>
+<script src="../lib/jquery.js"></script>
+<script src="../lib/underscore.js"></script>
+<script src="../lib/backbone.js"></script>
+<script>
+    (function ($) {
+
+        var Main = Backbone.Model.extend({
+            url: 'http://localhost:63342/backbone-docs/example/server/json/man.json',
+            initialize: function () {
+                alert("hi");
+                this.bind("change:name", function () {
+                    var name = this.get("name");
+                    alert("你改变了name属性为：" + name);//此处为更新后的值
+                });
+                this.bind("invalid", function (model, error) {
+                    alert("invalid:"+error)
+                });
+                this.bind("error", function (error) {
+                    alert("error:"+error)
+                })
+            },
+            validate: function (attrs) {
+                if (attrs.name == '') {
+                    return "name 不能为空";
+                }
+            },
+            defaults: {
+                "name": "张三",
+                "age": 24
+            },
+            aboutMe: function () {
+                alert("我叫" + this.get("name") + ",今年" + this.get("age"));
+            }
+        })
+
+        var main = new Main();
+        main.set({name: '习大大'});
+        //会发送POST到模型对应的url，发送的数据格式为json  :  {"name":"张三","age":24}
+        // 写服务端跨域注意了
+        main.save();
+
+        //然后接着就是从服务器端获取数据使用方法fetch([options])
+        var main1 = new Main();
+
+        //第一种情况，如果直接使用fetch方法，
+        //那么他会发送get请求到你model的url中，
+        //你在服务器端可以通过判断是get还是post来进行对应的操作。
+        //main1.fetch();
+
+
+        //第二种情况，在fetch中加入参数，如下：
+        main1.fetch({url:'http://localhost:63342/backbone-docs/example/server/json/man2.json'});
+        //这样，就会发送get请求到/getmans/这个url中，
+        //服务器返回的结果样式应该是对应的json格式数据，同save时POST过去的格式。
+
+        //不过接受服务器端返回的数据方法是这样的：
+        main1.fetch({url:'http://localhost:63342/backbone-docs/example/server/json/man3.json',
+            success:function(model,response){
+                alert('success');
+                //model为获取到的数据
+                alert(model.get('age'));
+            },error:function(){
+                //当返回格式不正确或者是非json数据时，会执行此方法
+                alert('error');
+            }
+        });
+
+    })(jQuery);
+</script>
+</html>

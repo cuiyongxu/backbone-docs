@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>对象中的方法</title>
+</head>
+<body>
+</body>
+<script src="../lib/jquery.js"></script>
+<script src="../lib/underscore.js"></script>
+<script src="../lib/backbone.js"></script>
+<script>
+    (function ($) {
+
+        var Main = Backbone.Model.extend({
+
+            initialize: function () {
+                alert("initialize")
+            },
+            defaults: {
+                "name": "张三",
+                age: 24
+            },
+            aboutMe: function () {
+                alert("哈哈")
+            }
+
+
+        })
+
+        var main = new Main();
+        alert(main.get("age"));//key 必需有引号哦
+        alert(main.get("name"))
+        main.aboutMe();//方法必需有括号 哦
+
+
+    })(jQuery);
+</script>
+</html>

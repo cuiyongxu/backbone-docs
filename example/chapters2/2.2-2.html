@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>对象属性赋值的两种方法-2</title>
+</head>
+<body>
+</body>
+<script src="../lib/jquery.js"></script>
+<script src="../lib/underscore.js"></script>
+<script src="../lib/backbone.js"></script>
+<script>
+    (function ($) {
+        var main = Backbone.Model.extend({
+            initialize: function () {
+                alert("hi! 美女");
+            }
+        })
+        var m = new main();
+        //只能存json   {'name':'cc'} 也ok
+        m.set({'name': 'cuiyongxu', 'age': 24});
+        //get 必需添加引号才能取到值哦
+        alert(m.get('name'))
+    })
+    (jQuery);
+</script>
+</html>

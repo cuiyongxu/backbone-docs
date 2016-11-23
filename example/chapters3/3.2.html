@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>使用fetch从服务器端获取数据</title>
+</head>
+<body>
+</body>
+<script src="../lib/jquery.js"></script>
+<script src="../lib/underscore.js"></script>
+<script src="../lib/backbone.js"></script>
+<script>
+    (function ($) {
+        var Book = Backbone.Model.extend({
+            initialize:function () {
+                console.log("init")
+            },
+            defaults:{
+              "title":"default"
+            }
+        })
+
+
+        var BookColl = Backbone.Collection.extend({
+            model:Book
+        })
+
+        var bookColl = new BookColl();
+        //collection中并没有urlRoot这个属性
+        bookColl.url = "http://localhost:63342/backbone-docs/example/server/json/title.json";
+        bookColl.fetch({
+            success:function(collection, response, options){
+                collection.each(function(book){
+                    alert(book.get('title'));
+                });
+            },error:function(collection, response, options){
+                alert('error');
+            }
+        })
+
+
+
+    })(jQuery);
+</script>
+</html>
